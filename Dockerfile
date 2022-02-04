@@ -1,4 +1,5 @@
 FROM node:14
+RUN adduser node root
 
 WORKDIR /usr/src/app
 
@@ -17,6 +18,9 @@ COPY . .
 # RUN ["npm", "run", "build"]
 
 EXPOSE 3000
+
+RUN chown -R node:node /usr/src/app
+USER 1000
 
 ## Comando para iniciar el servidor de desarrollo
 ENTRYPOINT ["npm","run","start"]
