@@ -1,7 +1,8 @@
 FROM node:14
 USER node
+RUN mkdir -p /home/node/app && chown -R node:node /home/node/app
 
-WORKDIR /home/node
+WORKDIR /home/node/app
 
 ENV NODE_ENV development
 
@@ -23,6 +24,8 @@ COPY . .
 EXPOSE 3000
 
 #RUN sudo chmod -R 777 /usr/src/app
+
+RUN chown node:node /home/node/app
 
 ## Comando para iniciar el servidor de desarrollo
 ENTRYPOINT ["npm","run","start"]
