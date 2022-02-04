@@ -19,7 +19,7 @@ COPY . .
 ## Habilitar solo en entornos productivos
 RUN ["npm", "run", "build"]
 
-RUN echo $(ls -1 /usr/src/app)
+RUN echo $(ls -1 /usr/src/app/dist)
 
 EXPOSE 3000
 
