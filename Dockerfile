@@ -23,8 +23,6 @@ RUN echo $(ls -1 /usr/src/app/dist)
 
 EXPOSE 3000
 
-COPY /usr/src/app/dist ./dist
-
 #RUN sudo chmod -R 777 /usr/src/app
 
 ## Comando para iniciar el servidor de desarrollo
