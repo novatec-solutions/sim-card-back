@@ -1,6 +1,5 @@
 FROM node:14
-USER node
-RUN mkdir -p /home/node/app && sudo chown -Rh $user:node /home/node/app
+RUN adduser node root
 
 WORKDIR /home/node/app
 
@@ -21,12 +20,14 @@ COPY . .
 ## Habilitar solo en entornos productivos
 # RUN ["npm", "run", "build"]
 
+RUN chmod -R 775 /home/node/app
+RUN chown -R node:root /home/node/app
+
 EXPOSE 3000
 
-#RUN sudo chmod -R 777 /usr/src/app
+USER 1000
 
-RUN chown $user:node /home/node/app
-RUN mkdir /home/node/app/dist && sudo chmod -R 777 /home/node/app
+#RUN sudo chmod -R 777 /usr/src/app
 
 ## Comando para iniciar el servidor de desarrollo
 ENTRYPOINT ["npm","run","start"]
