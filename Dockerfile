@@ -1,7 +1,6 @@
 FROM node:14
-RUN adduser node root
 
-WORKDIR /home/node/app
+WORKDIR /usr/src/app
 
 ENV NODE_ENV development
 
@@ -18,19 +17,16 @@ RUN ["npm", "install"]
 COPY . .
 
 ## Habilitar solo en entornos productivos
-# RUN ["npm", "run", "build"]
-
-RUN chmod -R 775 /home/node/app
-RUN chown -R node:root /home/node/app
+RUN ["npm", "run", "build"]
 
 EXPOSE 3000
 
-USER 1000
+COPY /usr/src/app/dist ./dist
 
 #RUN sudo chmod -R 777 /usr/src/app
 
 ## Comando para iniciar el servidor de desarrollo
-ENTRYPOINT ["npm","run","start"]
+CMD ["node", "dist/main"]
 
 #RUN sudo chmod -R 777 /usr/src/app
 
