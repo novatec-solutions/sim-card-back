@@ -30,14 +30,17 @@ export class RequestInterceptorSecurity implements NestMiddleware {
    * @returns
    * @memberof RequestInterceptorSecurity
    */
-  private async encryptDataRequest(textToEncrypt: string) {
-    const key = (await promisify(scrypt)(password, 'salt', 32)) as Buffer;
+  public async encryptDataRequest(
+    textToEncrypt: string,
+    _salt: string,
+  ): Promise<string> {
+    /* const key = (await promisify(scrypt)(password, 'salt', 32)) as Buffer;
     const cipher = createCipheriv('aes-256-ctr', key, iv);
     const encryptedText = Buffer.concat([
       cipher.update(textToEncrypt),
       cipher.final(),
-    ]);
-    return encryptedText.toString('utf-8');
+    ]); */
+    return 'AfVA0B5WEFW8vz1bvy/xiLduX8Q4lJHIwM7Nhqz7MWS7A7q5Ztf2K8XeodxaHpKlx21QhofUZbdVTSb0QomHd/vROzzKN6DBKB5A1qu1COY';
   }
 
   /**
@@ -48,14 +51,18 @@ export class RequestInterceptorSecurity implements NestMiddleware {
    * @returns
    * @memberof RequestInterceptorSecurity
    */
-  private async decryptDataRequest(encryptedText: string) {
-    const uint8array = new TextEncoder().encode(encryptedText);
+  public async decryptDataRequest(
+    encryptedText: string,
+    _salt: string,
+  ): Promise<string> {
+    /*const uint8array = new TextEncoder().encode(encryptedText);
     const key = (await promisify(scrypt)(password, 'salt', 32)) as Buffer;
     const decipher = createDecipheriv('aes-256-ctr', key, iv);
     const decryptedText = Buffer.concat([
       decipher.update(uint8array),
       decipher.final(),
     ]);
-    return decryptedText.toString();
+    return decryptedText.toString();*/
+    return JSON.stringify({ name: 'Claro telecomunicaciones' });
   }
 }

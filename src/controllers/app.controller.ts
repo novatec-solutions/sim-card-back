@@ -10,4 +10,10 @@ export class AppController {
     const data = await this.appService.getHello();
     return `Lista de continentes desde SOAP: ${data} `;
   }
+
+  @Get('/paises')
+  async getPaises(@Body() myDto: string) {
+    const data = Buffer.from('novatec', 'base64');
+    return data.toString('hex');
+  }
 }
