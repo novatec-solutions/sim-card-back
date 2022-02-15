@@ -1,11 +1,8 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
-import { createCipheriv, createDecipheriv, randomBytes, scrypt } from 'crypto';
+import { createCipheriv, createDecipheriv } from 'crypto';
 import { Request, Response, NextFunction } from 'express';
-import { promisify } from 'util';
 
-// 14e374cd46c823152a5341
-const iv = randomBytes(16);
-const password = 's3cr3t_p4ssw0rd';
+const iv = 'FhQKfo3xwQeIutbQ';
 
 /**
  * Middleware que se encarga de encriptar la informacion de la peticion
@@ -32,15 +29,15 @@ export class RequestInterceptorSecurity implements NestMiddleware {
    */
   public async encryptDataRequest(
     textToEncrypt: string,
-    _salt: string,
+    hashedPassword: any,
   ): Promise<string> {
-    /* const key = (await promisify(scrypt)(password, 'salt', 32)) as Buffer;
-    const cipher = createCipheriv('aes-256-ctr', key, iv);
-    const encryptedText = Buffer.concat([
+    const cipher = createCipheriv('aes-192-cbc', hashedPassword, iv); //pruebas modo ecb
+
+    const decryptedText = Buffer.concat([
       cipher.update(textToEncrypt),
       cipher.final(),
-    ]); */
-    return 'AfVA0B5WEFW8vz1bvy/xiLduX8Q4lJHIwM7Nhqz7MWS7A7q5Ztf2K8XeodxaHpKlx21QhofUZbdVTSb0QomHd/vROzzKN6DBKB5A1qu1COY';
+    ]);
+    return decryptedText.toString('base64'); 
   }
 
   /**
@@ -52,17 +49,14 @@ export class RequestInterceptorSecurity implements NestMiddleware {
    * @memberof RequestInterceptorSecurity
    */
   public async decryptDataRequest(
-    encryptedText: string,
-    _salt: string,
+    encryptedText,
+    hashedPassword: any,
   ): Promise<string> {
-    /*const uint8array = new TextEncoder().encode(encryptedText);
-    const key = (await promisify(scrypt)(password, 'salt', 32)) as Buffer;
-    const decipher = createDecipheriv('aes-256-ctr', key, iv);
-    const decryptedText = Buffer.concat([
-      decipher.update(uint8array),
-      decipher.final(),
-    ]);
-    return decryptedText.toString();*/
-    return JSON.stringify({ name: 'Claro telecomunicaciones' });
+    const decipher = createDecipheriv('aes-192-cbc', hashedPassword, iv); //pruebas modo ecb
+
+    let decrypted = decipher.update(encryptedText, 'base64', 'utf8');
+    decrypted += decipher.final('utf8');
+
+    return decrypted.toString();
   }
 }
