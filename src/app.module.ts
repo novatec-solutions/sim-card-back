@@ -1,30 +1,26 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { SoapModule } from 'nestjs-soap';
-import { AppController } from './controllers/app.controller';
-import { RequestInterceptorSecurity } from './middleware/request.middleware';
-import { AppService } from './services/app.service';
+import { PinService } from './domain/services/pin.service';
+import { HttpModule } from '@nestjs/axios';
+import { PinController } from './application/controllers/pin.controller';
+import { AccountController } from './application/controllers/account.controller';
+import { CustomerController } from './application/controllers/customer.controller';
+import { AccountService } from './domain/services/account.service';
+import { CustomerService } from './domain/services/customer.service';
+import { AccountRepository } from './infraestructure/repositories/account/account.repository';
+import { PinRepository } from './infraestructure/repositories/pin/pin.repository';
+import { CustomerRepository } from './infraestructure/repositories/customer/customer.repository';
+import { CryptSecurityMiddleware } from './application/middleware/crypt-security.middleware';
 
-/**
- * Declaracion del modulo base, se especifica el controlador principal
- * adicionalmente se especifica las definiciones iniciales a usar en el programa tales como
- * las rutas, servicios, middleware, etc.
- * Dicho modulo es el que se utiliza para inicializar la aplicacion
- * @export
- * @class AppModule
- * @implements {NestModule}
- */
+const REPOSITORIES = [AccountRepository, PinRepository, CustomerRepository];
+const SERVICES = [PinService, AccountService, CustomerService];
+
 @Module({
-  imports: [
-    SoapModule.register({
-      clientName: 'COUNTRY_SOAP_LIST',
-      uri: 'http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?WSDL'
-    }),
-  ],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [HttpModule],
+  controllers: [PinController, AccountController, CustomerController],
+  providers: [...REPOSITORIES, ...SERVICES],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(RequestInterceptorSecurity).forRoutes('*');
+    consumer.apply(CryptSecurityMiddleware).forRoutes('*');
   }
 }

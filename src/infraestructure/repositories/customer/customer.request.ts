@@ -1,0 +1,47 @@
+export const customerSearchRequest = (data) => {
+  return `
+    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:v2="http://www.ericsson.com/esb/data/generico/CommonTypes/v2/" xmlns:v21="http://www.ericsson.com/Schema/operation/getCustomerProfileRequest/V2/">
+        <soapenv:Header>
+        <v2:headerRequest>
+            <!--Optional:-->
+            <v2:idBusinessTransaction>?</v2:idBusinessTransaction>
+            <v2:idApplication>?</v2:idApplication>
+            <!--Optional:-->
+            <v2:target>?</v2:target>
+            <!--Optional:-->
+            <v2:userApplication>?</v2:userApplication>
+            <!--Optional:-->
+            <v2:password>?</v2:password>
+            <v2:startDate>2018-02-04T09:35:59-05:00</v2:startDate>
+            <!--Optional:-->
+            <v2:ipApplication>?</v2:ipApplication>
+            <!--Optional:-->
+            <v2:idESBTransaction>?</v2:idESBTransaction>
+            <!--Optional:-->
+            <v2:userSession>?</v2:userSession>
+            <v2:channel>?</v2:channel>
+            <!--Optional:-->
+            <v2:additionalNode>?</v2:additionalNode>
+        </v2:headerRequest>
+        </soapenv:Header>
+        <soapenv:Body>
+        <v21:GetCustomerInfoRequest>
+            <!--Optional:-->
+            <v21:msisdn>?</v21:msisdn>
+            <!--Optional:-->
+            <v21:documentNumber>${data.documentNumber}</v21:documentNumber>
+            <!--Optional:-->
+            <v21:documentType>${data.documentType}</v21:documentType>
+            <!--Optional:-->
+            <v21:customerName>?</v21:customerName>
+            <!--Optional:-->
+            <v21:accountNumber>?</v21:accountNumber>
+            <v21:getServices>true</v21:getServices>
+            <!--Optional:-->
+            <v21:serviceId>?</v21:serviceId>
+            <v21:splitNames>true</v21:splitNames>
+            <v21:issueIdDetails>false</v21:issueIdDetails>
+        </v21:GetCustomerInfoRequest>
+        </soapenv:Body>
+    </soapenv:Envelope>`;
+};
