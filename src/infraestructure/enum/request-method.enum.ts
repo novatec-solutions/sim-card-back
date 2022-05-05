@@ -4,3 +4,8 @@ export enum RequestMethod {
   PUT = 'put',
   DELETE = 'delete',
 }
+
+export enum TypeContacts {
+  PHONE = '4',
+  MAIL = '1'
+}
