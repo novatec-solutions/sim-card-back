@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import Axios from 'axios';
-import { WSDL_URL } from 'src/constants';
+import { ID_CLARO_URL } from 'src/constants';
 import { RequestMethod } from 'src/infraestructure/enum/request-method.enum';
 import { generatePinRequest, validatePinRequest } from './pin.request';
 
@@ -9,7 +9,7 @@ export class PinRepository {
   async generatePin(body) {
     const { data } = await Axios({
       method: RequestMethod.PUT,
-      url: `${WSDL_URL}IdClaro/V1.0/Rest/GeneratePin`,
+      url: `${ID_CLARO_URL}GeneratePin`,
       data: generatePinRequest(body),
     });
 
@@ -29,7 +29,7 @@ export class PinRepository {
   async validatePin(body) {
     const { data } = await Axios({
       method: RequestMethod.PUT,
-      url: `${WSDL_URL}IdClaro/V1.0/Rest/Validate`,
+      url: `${ID_CLARO_URL}Validate`,
       data: validatePinRequest(body),
     });
 
