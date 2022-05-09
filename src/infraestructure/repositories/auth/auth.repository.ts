@@ -14,7 +14,7 @@ export class AuthRepository {
       });
       return data;
     } catch (err) {
-      return err;
+      return `Error: ${err}`;
     }
   }
 
