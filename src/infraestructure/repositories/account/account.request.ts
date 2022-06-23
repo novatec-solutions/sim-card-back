@@ -18,3 +18,11 @@ export const validateAccountRequest = (param) => ({
   trace: true,
   accountType: 'N/A',
 });
+
+export const migrateSimRequest = (param) => ({
+  min: param.min,
+  iccidNew: param.iccidNew,
+  codeDesactivation: '381',
+  codeChangeIccid: 9,
+  descriptionChangeIccid: 'Repo Voluntaria (Sin Costo)'
+});
